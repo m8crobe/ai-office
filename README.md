@@ -82,3 +82,7 @@ GitHub 저장소 **Settings → Pages → Source: GitHub Actions**를 선택합�
 ## 라이선스와 에셋
 
 MIT — [LICENSE](LICENSE). 사무실·캐릭터는 코드로 직접 제작했으며 Tiny Tower의 원본 에셋은 사용하지 않습니다. React/React DOM·Vite·Vitest는 MIT, TypeScript는 Apache-2.0, Lucide는 ISC 라이선스입니다. 상세 전이 의존성은 `package-lock.json`과 각 패키지의 라이선스를 확인하세요.
+
+## 실제 작업 관찰 — 로컬 전용 (최소 기능)
+
+공개 데모는 계속 시뮬레이션만 제공합니다. 별도의 인증된 로컬 읽기 전용 관찰 화면은 `npm run observe`로 실행합니다. 실제 Codex 자동 연동이 아니라 명시적 CLI 이벤트, 현재 저장소의 Git 스냅샷, 명시적으로 실행한 테스트의 종료 코드를 관찰합니다. AI 자동 실행·외부 API·다른 저장소 연결은 제공하지 않습니다. [연동 방식·보안·실행 안내](local/README.md)를 먼저 읽으세요.
