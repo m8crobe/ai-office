@@ -37,7 +37,7 @@ rect(42,y+7,65,150,'#b8acbb');rect(48,y+13,53,138,'#dce2e5');rect(46,y+7,57,5,'#
 window(150,y+24);window(346,y+24);window(532,y+24);vine(143,y+15);vine(674,y+24);
 // Distinct departments, practical furniture, plants and small original props.
 shelf(277,y+34);lamp(203,y);lamp(409,y);lamp(594,y);
-desk(158,y+127);desk(354,y+127);plant(129,y+137);plant(478,y+133);plant(657,y+134);plant(322,y+103);
+if(f!==2)desk(158,y+127);desk(354,y+127);plant(129,y+137);plant(478,y+133);plant(657,y+134);plant(322,y+103);
 // Wall chart beside the central window.
 rect(463,y+28,42,47,'#bca4af');rect(466,y+31,36,41,'#fff5e9');for(let r=0;r<4;r++){rect(471,y+38+r*7,5,4,['#a9bb9e','#b59bc6','#e2b19b'][r%3]);rect(480,y+39+r*7,16,2,'#cdc0d0')}
 if(f===3){
@@ -52,7 +52,7 @@ rect(533,y+81,107,49,'#d5ad95');rect(536,y+85,101,40,'#efc8a9');rect(533,y+78,10
 rect(539,y+58,21,19,'#f6eee6');rect(542,y+62,15,10,'#b4a6b8');rect(579,y+47,22,31,'#897d8c');rect(582,y+50,16,9,'#c6c3cc');rect(583,y+64,14,8,'#e1d2c7');rect(608,y+64,10,13,'#edddb9');plant(628,y+61);
 rect(531,y+140,26,16,'#d8adc5');rect(535,y+130,18,13,'#e9c4d5');rect(571,y+139,62,7,'#e4c19f');rect(580,y+146,4,13,'#b39482');rect(623,y+146,4,13,'#b39482');
 }
-const members=team.filter(e=>e.floor===f);members.forEach((e,i)=>{let x=190+i*196;if(e.status==='회의 중')x=565; if(e.status==='대기')x=513;if(e.status==='완료')x=490;if(e.status==='오류')x=120;if(e.status==='검토 중')x=390;const walk=running&&!reduced&&e.status==='회의 중'?Math.round(Math.sin(frame/4)*15):0;hits.current.push({id:e.id,x:x+walk,y:y+82});person(e,x+walk,y+82)});
+const members=team.filter(e=>e.floor===f);members.forEach((e,i)=>{let x=e.id==='dev'?170:190+i*196;if(e.status==='회의 중')x=565; if(e.status==='대기')x=513;if(e.status==='완료')x=490;if(e.status==='오류')x=120;if(e.status==='검토 중')x=390;const walk=running&&!reduced&&e.status==='회의 중'?Math.round(Math.sin(frame/4)*15):0;hits.current.push({id:e.id,x:x+walk,y:y+82});person(e,x+walk,y+82)});if(f===2)desk(158,y+127);
 rect(23,y+164,676,13,'#9d819e');rect(31,y+164,659,4,'#fff3eb');rect(19,y+160,684,7,'#f4e7e4');}
 rect(16,621,689,10,'#c1b2b8');rect(4,631,713,12,'#d4c8c7');frame++;if(running&&!reduced)timer=setTimeout(draw,450);}
 draw();return()=>clearTimeout(timer);},[team,selected,running]);
