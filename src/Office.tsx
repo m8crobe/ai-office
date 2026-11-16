@@ -1,9 +1,11 @@
+import {drawLegacyPerson} from './legacyPerson';
+import {drawNoah,noahSprite,type NoahFrame} from './noahSprite';
 import {useEffect,useRef} from 'react';
 import type {Employee} from './simulation';
 export function Office({team,selected,onSelect,running}:{team:Employee[];selected:string;onSelect:(id:string)=>void;running:boolean}){
 const ref=useRef<HTMLCanvasElement>(null);
 const hits=useRef<{id:string;x:number;y:number}[]>([]);
-useEffect(()=>{const canvas=ref.current!;const c=canvas.getContext('2d')!;let frame=0;let timer:ReturnType<typeof setTimeout>;const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+useEffect(()=>{const canvas=ref.current!;const c=canvas.getContext('2d')!;let frame=0;let timer:ReturnType<typeof setTimeout>;const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;const sprite=new Image();sprite.src=noahSprite.url;sprite.onload=()=>{clearTimeout(timer);draw()};
 function draw(){hits.current=[];c.imageSmoothingEnabled=false;c.clearRect(0,0,720,650);
 const rect=(x:number,y:number,w:number,h:number,color:string)=>{c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),w,h)};
 const line=(x:number,y:number,w:number,h:number,color='#b7a6b3')=>rect(x,y,w,h,color);
@@ -19,10 +21,9 @@ function shelf(x:number,y:number){rect(x,y,45,79,'#b28d7d');rect(x+3,y+3,39,73,'
 function cat(x:number,y:number){rect(x,y+7,31,12,'#f9f2e3');rect(x+3,y+3,21,8,'#f9f2e3');rect(x-3,y+4,13,14,'#fff6e7');rect(x-3,y,4,7,'#ba927a');rect(x+6,y,4,7,'#ba927a');rect(x+17,y+4,9,8,'#ccaa81');rect(x+28,y+10,9,5,'#ba927a');rect(x,y+10,2,2,'#73616a');rect(x+6,y+10,2,2,'#73616a')}
 function vine(x:number,y:number){for(let i=0;i<7;i++){const yy=y+i*8;rect(x+(i%2)*3,yy,4,10,'#6f9a77');rect(x-7+(i%2)*3,yy+2,9,5,i%2?'#a3bd80':'#86ae78');rect(x+3+(i%2)*3,yy+5,9,4,'#a1bc83')}}
 function wreath(x:number,y:number){for(let i=0;i<7;i++){rect(x+i*5,y+(i%2)*3,7,7,i%2?'#f6d5e2':'#f1bad1');rect(x+i*5+2,y+(i%2)*3+2,2,2,'#fff3e9')}}
-function person(e:Employee,x:number,y:number){const bob=running&&!reduced&&e.status==='작업 중'?Math.floor(frame/2)%2:0;y+=bob;
-rect(x+3,y+35,7,13,'#555569');rect(x+15,y+35,7,13,'#555569');rect(x+1,y+47,10,4,'#615d6c');rect(x+15,y+47,10,4,'#615d6c');rect(x,y+21,25,18,e.color);rect(x-4,y+24,5,15,'#ecc3a6');rect(x+24,y+24,5,15,'#ecc3a6');rect(x+3,y+3,19,19,'#edc9ac');rect(x,y,25,8,e.id==='research'?'#b9836f':'#655967');rect(x,y+5,5,9,'#655967');rect(x+19,y+5,6,8,'#655967');rect(x+8,y+12,2,3,'#504b5a');rect(x+17,y+12,2,3,'#504b5a');rect(x+11,y+19,5,2,'#bd887c');
-rect(x+6,y-21,14,13,'#fff9ef');rect(x+8,y-19,9,8,e.status==='오류'?'#ce8079':e.status==='완료'?'#83aa8a':'#f7f2df');if(e.id===selected){rect(x-8,y+53,41,3,e.color);rect(x-12,y+48,4,4,e.color);rect(x+34,y+48,4,4,e.color)}
-}
+function person(e:Employee,x:number,y:number){const bob=running&&!reduced&&e.status==='작업 중'?Math.floor(frame/2)%2:0;
+if(e.id==='dev'&&sprite.complete&&sprite.naturalWidth){const pose:NoahFrame=e.status==='대기'?'idle':e.status==='작업 중'||e.status==='검토 중'?'work':running?(frame%4<2?'walkLeft':'walkRight'):'idle';drawNoah(c,sprite,pose,x-3,y+2+bob);if(e.id===selected)rect(x-8,y+53,41,3,e.color);return}
+drawLegacyPerson(c,e,x,y,e.id===selected,bob)}
 // Original pastel cutaway: layered skyline, garden roof and blossoms.
 rect(0,0,720,650,'#e6edf1');rect(0,0,720,77,'#c8e2f1');cloud(32,26);cloud(149,19);cloud(530,26);cloud(659,18);
 for(let i=0;i<12;i++){const h=18+(i%4)*9;rect(i*66,76-h,40,h,'#b4c6df');for(let j=0;j<3;j++)rect(i*66+8+j*9,81-h,3,5,'#e3eaf4')}
