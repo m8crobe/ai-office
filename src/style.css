@@ -3,3 +3,20 @@
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 
 .office-art canvas{cursor:pointer}
+
+/* The office is the hero of the page; status cards follow the scene. */
+main{display:flex;flex-direction:column;max-width:1650px;background:linear-gradient(165deg,#f8f0f3 0,#f7f5ed 38%,#f7f7f2 75%)}
+.page-heading{order:1;margin-bottom:18px}.simulation-banner{order:2;margin-bottom:17px;background:#f7eaf2;border-color:#e9d2e5;color:#7d6884}.office-grid{order:3;grid-template-columns:minmax(0,1fr) 275px;gap:13px}.stats{order:4;margin:18px 0 8px}.projects-section{order:5}.activity-panel{order:6}footer{order:7}
+.office-card,.panel,.stats>div,.project-card{border-color:#cdb9c7;box-shadow:0 3px 0 #d6c5cf55,0 8px 26px #81648412}
+.office-card{border:2px solid #ae91ad;border-radius:10px}.card-heading{background:#fbf0ed;border-bottom:2px solid #d0b8ca}.card-heading h2{font-size:16px;color:#5f4e6d}.pill{font-size:9px;background:#e9d8ec;color:#806591;border-color:#cdb2d3}
+.office-art{background:#d9e9ed;padding:0 6px}.office-art canvas{max-height:790px;object-fit:contain}
+.floor-labels span{left:19%;background:#fff7ed;border:2px solid #ae8eaa;color:#5f496d;font-size:11px;font-weight:700;box-shadow:3px 3px 0 #987b9c66}
+.staff-selector{background:#f1e5eb}.staff-selector button{background:#fff9f3;border-color:#c6a9be;font-size:11px;font-weight:600}
+.office-toolbar{background:#fff8f3;border-top:2px solid #d8bdca}.office-toolbar>span{font-size:10px}
+.sidebar{background:#f5eaf1;border-right:2px solid #d7bed0}.sidebar-note{background:#fff3e8;border-color:#e1c3ca}.brand-icon{background:#d6c3df;border-color:#a990b6;color:#685478}
+nav button{font-size:13px;color:#806c83}nav button.active{background:#d9c4e3;color:#624e74}
+h1{font-size:29px;color:#56475b}.page-heading p{font-size:12px;color:#817484}
+.stats>div{background:#fff8f4}.stats>div>span{font-size:11px;color:#776678}.stats p{font-size:9px}
+.panel-heading h2,.section-heading h2{font-size:15px;color:#65536c}
+@media(max-width:900px){.office-grid{grid-template-columns:1fr}.right-column{grid-template-columns:1fr 1fr}.office-art canvas{max-height:none}}
+@media(max-width:580px){main{padding:18px 10px 0}.office-art{padding:0}.floor-labels span{left:20%;font-size:7px;padding:3px 4px}.right-column{grid-template-columns:1fr}.office-toolbar>span{font-size:8px}h1{font-size:21px}}

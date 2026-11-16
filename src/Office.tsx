@@ -17,21 +17,23 @@ function desk(x:number,y:number){rect(x+4,y+36,97,4,'#ceb5aa');rect(x+9,y-15,24,
 function lamp(x:number,y:number){line(x,y,2,29,'#887585');rect(x-11,y+28,24,4,'#866e81');rect(x-15,y+32,32,5,'#b69cab');rect(x-11,y+37,24,3,'#ffe8b1');rect(x-7,y+40,16,3,'#fff0cd')}
 function shelf(x:number,y:number){rect(x,y,45,79,'#b28d7d');rect(x+3,y+3,39,73,'#e5c5a4');for(let row=0;row<3;row++){for(let b=0;b<5;b++){const h=12+(b%3)*3;rect(x+6+b*7,y+22+row*25-h,5,h,['#b6a0c7','#9ebcb4','#edc2ac','#c3ccad','#a8b6cf'][b]);rect(x+7+b*7,y+25+row*25-h,2,2,'#eee4dc')}rect(x+2,y+23+row*25,41,3,'#b28d7d')}}
 function cat(x:number,y:number){rect(x,y+7,31,12,'#f9f2e3');rect(x+3,y+3,21,8,'#f9f2e3');rect(x-3,y+4,13,14,'#fff6e7');rect(x-3,y,4,7,'#ba927a');rect(x+6,y,4,7,'#ba927a');rect(x+17,y+4,9,8,'#ccaa81');rect(x+28,y+10,9,5,'#ba927a');rect(x,y+10,2,2,'#73616a');rect(x+6,y+10,2,2,'#73616a')}
+function vine(x:number,y:number){for(let i=0;i<7;i++){const yy=y+i*8;rect(x+(i%2)*3,yy,4,10,'#6f9a77');rect(x-7+(i%2)*3,yy+2,9,5,i%2?'#a3bd80':'#86ae78');rect(x+3+(i%2)*3,yy+5,9,4,'#a1bc83')}}
+function wreath(x:number,y:number){for(let i=0;i<7;i++){rect(x+i*5,y+(i%2)*3,7,7,i%2?'#f6d5e2':'#f1bad1');rect(x+i*5+2,y+(i%2)*3+2,2,2,'#fff3e9')}}
 function person(e:Employee,x:number,y:number){const bob=running&&!reduced&&e.status==='작업 중'?Math.floor(frame/2)%2:0;y+=bob;
 rect(x+3,y+35,7,13,'#555569');rect(x+15,y+35,7,13,'#555569');rect(x+1,y+47,10,4,'#615d6c');rect(x+15,y+47,10,4,'#615d6c');rect(x,y+21,25,18,e.color);rect(x-4,y+24,5,15,'#ecc3a6');rect(x+24,y+24,5,15,'#ecc3a6');rect(x+3,y+3,19,19,'#edc9ac');rect(x,y,25,8,e.id==='research'?'#b9836f':'#655967');rect(x,y+5,5,9,'#655967');rect(x+19,y+5,6,8,'#655967');rect(x+8,y+12,2,3,'#504b5a');rect(x+17,y+12,2,3,'#504b5a');rect(x+11,y+19,5,2,'#bd887c');
-rect(x+8,y-16,9,8,e.status==='오류'?'#ce8079':e.status==='완료'?'#83aa8a':'#f7f2df');if(e.id===selected){rect(x-8,y+53,41,3,e.color)}
+rect(x+6,y-21,14,13,'#fff9ef');rect(x+8,y-19,9,8,e.status==='오류'?'#ce8079':e.status==='완료'?'#83aa8a':'#f7f2df');if(e.id===selected){rect(x-8,y+53,41,3,e.color);rect(x-12,y+48,4,4,e.color);rect(x+34,y+48,4,4,e.color)}
 }
 // Original pastel cutaway: layered skyline, garden roof and blossoms.
 rect(0,0,720,650,'#e6edf1');rect(0,0,720,77,'#c8e2f1');cloud(32,26);cloud(149,19);cloud(530,26);cloud(659,18);
 for(let i=0;i<12;i++){const h=18+(i%4)*9;rect(i*66,76-h,40,h,'#b4c6df');for(let j=0;j<3;j++)rect(i*66+8+j*9,81-h,3,5,'#e3eaf4')}
 for(const x of [7,700]){rect(x,20,5,600,'#b69899');for(let i=0;i<15;i++){const yy=30+i*40;const dx=Math.round(Math.sin(i*3)*15);rect(x+dx-13,yy,28,9,'#edc6d9');rect(x+dx-8,yy-5,19,18,'#f5d4e2');rect(x+dx,yy,4,4,'#fff0ed')}}
-rect(22,59,676,19,'#a58da9');rect(17,54,686,9,'#f8e5e8');rect(22,63,676,4,'#d3b9cf');
+rect(13,49,697,9,'#8e729d');rect(22,59,676,19,'#a58da9');rect(17,54,686,9,'#f8e5e8');rect(22,63,676,4,'#d3b9cf');
 rect(244,9,239,45,'#9b82a9');rect(249,13,229,36,'#c6b0d6');rect(253,17,221,3,'#e9d7ec');c.fillStyle='#fff8ef';c.font='bold 17px monospace';c.fillText('✦ AI COMPANY ✦',286,37);
-for(const x of [70,126,550,636])plant(x,36);rect(576,36,36,17,'#d8d0de');rect(580,39,27,9,'#aaa2b8');for(let i=0;i<5;i++)line(583+i*5,40,2,7,'#d5d3e0');
-for(let f=3;f>=1;f--){const y=78+(3-f)*181;const colors=['#f8e9db','#eee8f3','#f5e4e9'];rect(31,y,659,164,colors[f-1]);rect(32,y+128,657,36,'#e9cfb7');rect(123,y+7,560,5,'#fff4e7');rect(123,y+119,560,5,'#dfbdab');for(let i=0;i<12;i++)line(35+i*58,y+129,1,35,'#cfb7a7');line(31,y+151,659,1,'#d2baaa');
+for(const x of [70,126,550,636])plant(x,36);vine(104,28);vine(672,31);wreath(163,42);wreath(487,46);rect(576,36,36,17,'#d8d0de');rect(580,39,27,9,'#aaa2b8');for(let i=0;i<5;i++)line(583+i*5,40,2,7,'#d5d3e0');
+for(let f=3;f>=1;f--){const y=78+(3-f)*181;const colors=['#f8e9db','#eee8f3','#f5e4e9'];rect(31,y,659,164,colors[f-1]);rect(32,y+128,657,36,'#e9cfb7');rect(30,y+2,7,158,'#b99eb4');rect(685,y+2,7,158,'#b99eb4');rect(37,y+4,647,4,'#fff5ea');rect(123,y+7,560,5,'#fff4e7');rect(123,y+119,560,5,'#dfbdab');for(let i=0;i<12;i++)line(35+i*58,y+129,1,35,'#cfb7a7');line(31,y+151,659,1,'#d2baaa');
 // elevator shaft
-rect(42,y+7,65,150,'#b8acbb');rect(48,y+13,53,138,'#dce2e5');rect(73,y+13,3,138,'#ada4b4');rect(53,y+24,16,99,'#c4d4db');rect(81,y+24,14,99,'#c4d4db');rect(111,y+60,8,18,'#c0aebb');rect(113,y+64,4,4,'#f8eee0');
-window(150,y+24);window(346,y+24);window(532,y+24);
+rect(42,y+7,65,150,'#b8acbb');rect(48,y+13,53,138,'#dce2e5');rect(46,y+7,57,5,'#f7ebf2');rect(73,y+13,3,138,'#ada4b4');rect(53,y+24,16,99,'#c4d4db');rect(81,y+24,14,99,'#c4d4db');rect(111,y+60,8,18,'#c0aebb');rect(113,y+64,4,4,'#f8eee0');
+window(150,y+24);window(346,y+24);window(532,y+24);vine(143,y+15);vine(674,y+24);
 // Distinct departments, practical furniture, plants and small original props.
 shelf(277,y+34);lamp(203,y);lamp(409,y);lamp(594,y);
 desk(158,y+127);desk(354,y+127);plant(129,y+137);plant(478,y+133);plant(657,y+134);plant(322,y+103);
@@ -50,7 +52,7 @@ rect(539,y+58,21,19,'#f6eee6');rect(542,y+62,15,10,'#b4a6b8');rect(579,y+47,22,3
 rect(531,y+140,26,16,'#d8adc5');rect(535,y+130,18,13,'#e9c4d5');rect(571,y+139,62,7,'#e4c19f');rect(580,y+146,4,13,'#b39482');rect(623,y+146,4,13,'#b39482');
 }
 const members=team.filter(e=>e.floor===f);members.forEach((e,i)=>{let x=190+i*196;if(e.status==='회의 중')x=565; if(e.status==='대기')x=513;if(e.status==='완료')x=490;if(e.status==='오류')x=120;if(e.status==='검토 중')x=390;const walk=running&&!reduced&&e.status==='회의 중'?Math.round(Math.sin(frame/4)*15):0;hits.current.push({id:e.id,x:x+walk,y:y+82});person(e,x+walk,y+82)});
-rect(23,y+164,676,13,'#b7a2b1');rect(19,y+160,684,7,'#f4e7e4');}
+rect(23,y+164,676,13,'#9d819e');rect(31,y+164,659,4,'#fff3eb');rect(19,y+160,684,7,'#f4e7e4');}
 rect(16,621,689,10,'#c1b2b8');rect(4,631,713,12,'#d4c8c7');frame++;if(running&&!reduced)timer=setTimeout(draw,450);}
 draw();return()=>clearTimeout(timer);},[team,selected,running]);
 return <div className="office-art"><canvas ref={ref} onClick={event=>{const box=event.currentTarget.getBoundingClientRect();const x=(event.clientX-box.left)*720/box.width;const y=(event.clientY-box.top)*650/box.height;const hit=hits.current.find(h=>x>=h.x-10&&x<=h.x+35&&y>=h.y-20&&y<=h.y+55);if(hit)onSelect(hit.id)}} width={720} height={650} aria-label="3층 픽셀 사무실. 아래 직원 버튼을 눌러 상세 정보를 확인하세요."/><div className="floor-labels">{[3,2,1].map(f=><span key={f}><b>{f}F</b> {['기획 · 검토팀','개발팀','연구 · 자동화팀'][f-1]}</span>)}</div><div className="staff-selector">{team.map(e=><button key={e.id} onClick={()=>onSelect(e.id)} className={selected===e.id?'selected':''}><i style={{background:e.color}}/>{e.name}<small>{e.status}</small></button>)}</div></div>
