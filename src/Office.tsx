@@ -1,15 +1,17 @@
+import {floorCountForProjects} from './building';
 import {useState} from 'react';
 import {FloorDetail} from './FloorDetail';
 import {drawLegacyPerson} from './legacyPerson';
 import {drawNoah,noahSprite,type NoahFrame} from './noahSprite';
 import {useEffect,useRef} from 'react';
 import type {Employee} from './simulation';
-export function Office({team,selected,onSelect,running}:{team:Employee[];selected:string;onSelect:(id:string)=>void;running:boolean}){
+export function Office({team,projects,selected,onSelect,running}:{team:Employee[];projects:string[];selected:string;onSelect:(id:string)=>void;running:boolean}){
+const floorCount=floorCountForProjects(projects.length);const sceneHeight=78+floorCount*181+29;
 const ref=useRef<HTMLCanvasElement>(null);
-const [floorOpen,setFloorOpen]=useState(false);
+const [floorOpen,setFloorOpen]=useState<number|null>(null);
 const hits=useRef<{id:string;x:number;y:number}[]>([]);
 useEffect(()=>{const canvas=ref.current!;const c=canvas.getContext('2d')!;let frame=0;let timer:ReturnType<typeof setTimeout>;const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;const sprite=new Image();sprite.src=noahSprite.url;sprite.onload=()=>{clearTimeout(timer);draw()};
-function draw(){hits.current=[];c.imageSmoothingEnabled=false;c.clearRect(0,0,720,650);
+function draw(){hits.current=[];c.imageSmoothingEnabled=false;c.clearRect(0,0,720,sceneHeight);
 const rect=(x:number,y:number,w:number,h:number,color:string)=>{c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),w,h)};
 const line=(x:number,y:number,w:number,h:number,color='#b7a6b3')=>rect(x,y,w,h,color);
 function plant(x:number,y:number){
@@ -28,13 +30,13 @@ function person(e:Employee,x:number,y:number){const bob=running&&!reduced&&e.sta
 if(e.id==='dev'&&sprite.complete&&sprite.naturalWidth){const pose:NoahFrame=e.status==='대기'?'idle':e.status==='작업 중'||e.status==='검토 중'?'work':running?(frame%4<2?'walkLeft':'walkRight'):'idle';drawNoah(c,sprite,pose,x-3,y+2+bob);if(e.id===selected)rect(x-8,y+53,41,3,e.color);return}
 drawLegacyPerson(c,e,x,y,e.id===selected,bob)}
 // Original pastel cutaway: layered skyline, garden roof and blossoms.
-rect(0,0,720,650,'#e6edf1');rect(0,0,720,77,'#c8e2f1');cloud(32,26);cloud(149,19);cloud(530,26);cloud(659,18);
+rect(0,0,720,sceneHeight,'#e6edf1');rect(0,0,720,77,'#c8e2f1');cloud(32,26);cloud(149,19);cloud(530,26);cloud(659,18);
 for(let i=0;i<12;i++){const h=18+(i%4)*9;rect(i*66,76-h,40,h,'#b4c6df');for(let j=0;j<3;j++)rect(i*66+8+j*9,81-h,3,5,'#e3eaf4')}
 for(const x of [7,700]){rect(x,20,5,600,'#b69899');for(let i=0;i<15;i++){const yy=30+i*40;const dx=Math.round(Math.sin(i*3)*15);rect(x+dx-13,yy,28,9,'#edc6d9');rect(x+dx-8,yy-5,19,18,'#f5d4e2');rect(x+dx,yy,4,4,'#fff0ed')}}
 rect(13,49,697,9,'#8e729d');rect(22,59,676,19,'#a58da9');rect(17,54,686,9,'#f8e5e8');rect(22,63,676,4,'#d3b9cf');
 rect(244,9,239,45,'#9b82a9');rect(249,13,229,36,'#c6b0d6');rect(253,17,221,3,'#e9d7ec');c.fillStyle='#fff8ef';c.font='bold 17px monospace';c.fillText('✦ AI COMPANY ✦',286,37);
 for(const x of [70,126,550,636])plant(x,36);vine(104,28);vine(672,31);wreath(163,42);wreath(487,46);rect(576,36,36,17,'#d8d0de');rect(580,39,27,9,'#aaa2b8');for(let i=0;i<5;i++)line(583+i*5,40,2,7,'#d5d3e0');
-for(let f=3;f>=1;f--){const y=78+(3-f)*181;const colors=['#f8e9db','#eee8f3','#f5e4e9'];rect(31,y,659,164,colors[f-1]);rect(32,y+128,657,36,'#e9cfb7');rect(30,y+2,7,158,'#b99eb4');rect(685,y+2,7,158,'#b99eb4');rect(37,y+4,647,4,'#fff5ea');rect(123,y+7,560,5,'#fff4e7');rect(123,y+119,560,5,'#dfbdab');for(let i=0;i<12;i++)line(35+i*58,y+129,1,35,'#cfb7a7');line(31,y+151,659,1,'#d2baaa');
+for(let f=floorCount;f>=1;f--){const y=78+(floorCount-f)*181;const colors=['#f8e9db','#eee8f3','#f5e4e9'];rect(31,y,659,164,colors[(f-1)%3]);rect(32,y+128,657,36,'#e9cfb7');rect(30,y+2,7,158,'#b99eb4');rect(685,y+2,7,158,'#b99eb4');rect(37,y+4,647,4,'#fff5ea');rect(123,y+7,560,5,'#fff4e7');rect(123,y+119,560,5,'#dfbdab');for(let i=0;i<12;i++)line(35+i*58,y+129,1,35,'#cfb7a7');line(31,y+151,659,1,'#d2baaa');
 // elevator shaft
 rect(42,y+7,65,150,'#b8acbb');rect(48,y+13,53,138,'#dce2e5');rect(46,y+7,57,5,'#f7ebf2');rect(73,y+13,3,138,'#ada4b4');rect(53,y+24,16,99,'#c4d4db');rect(81,y+24,14,99,'#c4d4db');rect(111,y+60,8,18,'#c0aebb');rect(113,y+64,4,4,'#f8eee0');
 window(150,y+24);window(346,y+24);window(532,y+24);vine(143,y+15);vine(674,y+24);
@@ -43,7 +45,7 @@ shelf(277,y+34);lamp(203,y);lamp(409,y);lamp(594,y);
 if(f!==2)desk(158,y+127);desk(354,y+127);plant(129,y+137);plant(478,y+133);plant(657,y+134);plant(322,y+103);
 // Wall chart beside the central window.
 rect(463,y+28,42,47,'#bca4af');rect(466,y+31,36,41,'#fff5e9');for(let r=0;r<4;r++){rect(471,y+38+r*7,5,4,['#a9bb9e','#b59bc6','#e2b19b'][r%3]);rect(480,y+39+r*7,16,2,'#cdc0d0')}
-if(f===3){
+if(f>=3){
 rect(531,y+107,109,31,'#a1b18c');rect(536,y+98,99,20,'#c6d0ac');rect(528,y+108,11,34,'#b2c296');rect(633,y+108,11,34,'#b2c296');rect(542,y+101,20,20,'#e4ddb4');rect(606,y+101,20,20,'#d5c4d9');rect(549,y+143,75,7,'#dfb99b');rect(556,y+150,4,10,'#a88b80');rect(615,y+150,4,10,'#a88b80');cat(577,y+119);
 }else if(f===2){
 // Glass meeting room with framed door and pastel chairs.
@@ -55,9 +57,10 @@ rect(533,y+81,107,49,'#d5ad95');rect(536,y+85,101,40,'#efc8a9');rect(533,y+78,10
 rect(539,y+58,21,19,'#f6eee6');rect(542,y+62,15,10,'#b4a6b8');rect(579,y+47,22,31,'#897d8c');rect(582,y+50,16,9,'#c6c3cc');rect(583,y+64,14,8,'#e1d2c7');rect(608,y+64,10,13,'#edddb9');plant(628,y+61);
 rect(531,y+140,26,16,'#d8adc5');rect(535,y+130,18,13,'#e9c4d5');rect(571,y+139,62,7,'#e4c19f');rect(580,y+146,4,13,'#b39482');rect(623,y+146,4,13,'#b39482');
 }
-const members=team.filter(e=>e.floor===f);members.forEach((e,i)=>{let x=e.id==='dev'?170:190+i*196;if(e.status==='회의 중')x=565; if(e.status==='대기')x=513;if(e.status==='완료')x=490;if(e.status==='오류')x=120;if(e.status==='검토 중')x=390;const walk=running&&!reduced&&e.status==='회의 중'?Math.round(Math.sin(frame/4)*15):0;hits.current.push({id:e.id,x:x+walk,y:y+82});person(e,x+walk,y+82)});if(f===2)desk(158,y+127);
+const members=team.filter(e=>e.floor===f);members.forEach((e,i)=>{let x=({lead:540,dev:170,review:390,research:floorCount===1?280:520} as Record<string,number>)[e.id]??150+i*120;const walk=running&&!reduced&&e.status==='회의 중'?Math.round(Math.sin(frame/4)*15):0;hits.current.push({id:e.id,x:x+walk,y:y+82});person(e,x+walk,y+82)});if(f===2)desk(158,y+127);
 rect(23,y+164,676,13,'#9d819e');rect(31,y+164,659,4,'#fff3eb');rect(19,y+160,684,7,'#f4e7e4');}
-rect(16,621,689,10,'#c1b2b8');rect(4,631,713,12,'#d4c8c7');frame++;if(running&&!reduced)timer=setTimeout(draw,450);}
+rect(16,sceneHeight-29,689,10,'#c1b2b8');rect(4,sceneHeight-19,713,12,'#d4c8c7');frame++;if(running&&!reduced)timer=setTimeout(draw,450);}
 draw();return()=>clearTimeout(timer);},[team,selected,running]);
-return <div className="office-art"><canvas ref={ref} onClick={event=>{const box=event.currentTarget.getBoundingClientRect();const x=(event.clientX-box.left)*720/box.width;const y=(event.clientY-box.top)*650/box.height;const hit=hits.current.find(h=>x>=h.x-10&&x<=h.x+35&&y>=h.y-20&&y<=h.y+55);if(hit){onSelect(hit.id);if(team.find(e=>e.id===hit.id)?.floor===2)setFloorOpen(true)}else if(y>=259&&y<436)setFloorOpen(true)}} width={720} height={650} aria-label="3층 픽셀 사무실. 아래 직원 버튼을 눌러 상세 정보를 확인하세요."/><div className="floor-labels">{[3,2,1].map(f=>f===2?<button type="button" className="floor-zoom-trigger" key={f} onClick={()=>setFloorOpen(true)} aria-label="2층 개발팀 확대하기"><b>2F</b> 개발팀 <span>↗</span></button>:<span key={f}><b>{f}F</b> {['기획 · 검토팀','개발팀','연구 · 자동화팀'][f-1]}</span>)}</div><div className="staff-selector">{team.map(e=><button key={e.id} onClick={()=>onSelect(e.id)} className={selected===e.id?'selected':''}><i style={{background:e.color}}/>{e.name}<small>{e.status}</small></button>)}</div>{floorOpen&&<FloorDetail employee={team.find(e=>e.id==='dev')!} running={running} onClose={()=>setFloorOpen(false)}/>}</div>
+const names=['기획 · 검토팀','개발팀','연구 · 자동화팀'];
+return <div className="office-art"><div className="office-stage"><canvas ref={ref} onClick={event=>{const box=event.currentTarget.getBoundingClientRect();const x=(event.clientX-box.left)*720/box.width;const y=(event.clientY-box.top)*sceneHeight/box.height;const hit=hits.current.find(h=>x>=h.x-10&&x<=h.x+35&&y>=h.y-20&&y<=h.y+55);if(hit){onSelect(hit.id);setFloorOpen(team.find(e=>e.id===hit.id)?.floor??1)}else if(y>=78&&y<sceneHeight-29){setFloorOpen(Math.max(1,floorCount-Math.floor((y-78)/181)))}}} width={720} height={sceneHeight} aria-label={`${floorCount}층 픽셀 사무실. 층을 클릭하면 확대됩니다.`}/><div className="floor-labels">{Array.from({length:floorCount},(_,i)=>floorCount-i).map(f=><button type="button" className="floor-zoom-trigger" key={f} style={{top:`${(78+(floorCount-f)*181+20)/sceneHeight*100}%`}} onClick={()=>setFloorOpen(f)} aria-label={`${f}층 확대하기`}><b>{f}F</b> {names[f-1]??'프로젝트 공간'} <span>↗</span></button>)}</div></div><div className="staff-selector">{team.map(e=><button key={e.id} onClick={()=>onSelect(e.id)} className={selected===e.id?'selected':''}><i style={{background:e.color}}/>{e.name}<small>{e.status}</small></button>)}</div>{floorOpen!==null&&<FloorDetail floor={floorOpen} employees={team.filter(e=>e.floor===floorOpen)} projects={projects.slice((floorOpen-1)*2,floorOpen*2)} running={running} onSelect={onSelect} onClose={()=>setFloorOpen(null)}/>}</div>
 }
