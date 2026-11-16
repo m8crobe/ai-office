@@ -81,7 +81,7 @@ GitHub 저장소 **Settings → Pages → Source: GitHub Actions**를 선택합�
 
 ## 라이선스와 에셋
 
-MIT — [LICENSE](LICENSE). 사무실·캐릭터는 코드로 직접 제작했으며 Tiny Tower의 원본 에셋은 사용하지 않습니다. React/React DOM·Vite·Vitest는 MIT, TypeScript는 Apache-2.0, Lucide는 ISC 라이선스입니다. 상세 전이 의존성은 `package-lock.json`과 각 패키지의 라이선스를 확인하세요.
+MIT — [LICENSE](LICENSE). 기본 3층 사무실과 캐릭터 스프라이트는 직접 제작했습니다. 2층 확대 공간은 이 프로젝트용으로 새로 생성한 [독창적인 이미지](public/rooms/development-floor.png)를 사용하고, 직원은 별도 스프라이트로 렌더링합니다. 프로젝트 에셋은 MIT 라이선스로 공개하며 Tiny Tower의 원본 에셋은 사용하지 않습니다. React/React DOM·Vite·Vitest는 MIT, TypeScript는 Apache-2.0, Lucide는 ISC 라이선스입니다. 상세 전이 의존성은 `package-lock.json`과 각 패키지의 라이선스를 확인하세요.
 
 ## 실제 작업 관찰 — 로컬 전용 (최소 기능)
 
@@ -93,4 +93,4 @@ MIT — [LICENSE](LICENSE). 사무실·캐릭터는 코드로 직접 제작했�
 
 ## 2층 확대 시뮬레이션
 
-전체 3층 사무실에서 **2F 개발팀** 표지나 2층 바닥을 누르면 [마름모꼴 단면 공간](docs/floor-2-expanded.png)이 열립니다. 책상 두 곳, 책장, 화분, 유리 회의 공간을 가로로 배치했습니다. [시뮬레이션을 시작하면 노아가 자동으로 이동](docs/floor-2-moving.png)하고, 책상 앞에 도착하면 [작업 프레임](docs/floor-2-working.png)으로 바뀝니다. 직접 이동 명령은 제공하지 않습니다. 일시정지하면 이동도 멈춥니다. 모바일에서는 확대 공간을 가로로 스크롤할 수 있습니다. 모션 감소 설정에서는 정적인 작업 장면을 보여줍니다. 이 장면과 진행률은 시뮬레이션 데이터이며 실제 Codex 작업을 나타내지 않습니다. 우선 2층·직원 1명만 구현했습니다.
+전체 3층 사무실에서 **2F 개발팀** 표지나 2층 바닥을 누르면 [마름모꼴 단면 공간](docs/floor-2-expanded.png)이 열립니다. 책상 두 곳, 책장, 화분, 유리 회의 공간을 가로로 배치했습니다. 이미지 에셋은 약 1.6MB이며 확대 화면을 열 때만 로드합니다. [시뮬레이션을 시작하면 노아가 자동으로 이동](docs/floor-2-moving.png)하고, 책상 앞에 도착하면 [작업 프레임](docs/floor-2-working.png)으로 바뀝니다. 직접 이동 명령은 제공하지 않습니다. 일시정지하면 이동도 멈춥니다. 모바일에서는 확대 공간을 가로로 스크롤할 수 있습니다. 모션 감소 설정에서는 정적인 작업 장면을 보여줍니다. 이 장면과 진행률은 시뮬레이션 데이터이며 실제 Codex 작업을 나타내지 않습니다. 우선 2층·직원 1명만 구현했습니다.
