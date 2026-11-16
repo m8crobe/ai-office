@@ -1,9 +1,12 @@
+import {useState} from 'react';
+import {FloorDetail} from './FloorDetail';
 import {drawLegacyPerson} from './legacyPerson';
 import {drawNoah,noahSprite,type NoahFrame} from './noahSprite';
 import {useEffect,useRef} from 'react';
 import type {Employee} from './simulation';
 export function Office({team,selected,onSelect,running}:{team:Employee[];selected:string;onSelect:(id:string)=>void;running:boolean}){
 const ref=useRef<HTMLCanvasElement>(null);
+const [floorOpen,setFloorOpen]=useState(false);
 const hits=useRef<{id:string;x:number;y:number}[]>([]);
 useEffect(()=>{const canvas=ref.current!;const c=canvas.getContext('2d')!;let frame=0;let timer:ReturnType<typeof setTimeout>;const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;const sprite=new Image();sprite.src=noahSprite.url;sprite.onload=()=>{clearTimeout(timer);draw()};
 function draw(){hits.current=[];c.imageSmoothingEnabled=false;c.clearRect(0,0,720,650);
@@ -56,5 +59,5 @@ const members=team.filter(e=>e.floor===f);members.forEach((e,i)=>{let x=e.id==='
 rect(23,y+164,676,13,'#9d819e');rect(31,y+164,659,4,'#fff3eb');rect(19,y+160,684,7,'#f4e7e4');}
 rect(16,621,689,10,'#c1b2b8');rect(4,631,713,12,'#d4c8c7');frame++;if(running&&!reduced)timer=setTimeout(draw,450);}
 draw();return()=>clearTimeout(timer);},[team,selected,running]);
-return <div className="office-art"><canvas ref={ref} onClick={event=>{const box=event.currentTarget.getBoundingClientRect();const x=(event.clientX-box.left)*720/box.width;const y=(event.clientY-box.top)*650/box.height;const hit=hits.current.find(h=>x>=h.x-10&&x<=h.x+35&&y>=h.y-20&&y<=h.y+55);if(hit)onSelect(hit.id)}} width={720} height={650} aria-label="3층 픽셀 사무실. 아래 직원 버튼을 눌러 상세 정보를 확인하세요."/><div className="floor-labels">{[3,2,1].map(f=><span key={f}><b>{f}F</b> {['기획 · 검토팀','개발팀','연구 · 자동화팀'][f-1]}</span>)}</div><div className="staff-selector">{team.map(e=><button key={e.id} onClick={()=>onSelect(e.id)} className={selected===e.id?'selected':''}><i style={{background:e.color}}/>{e.name}<small>{e.status}</small></button>)}</div></div>
+return <div className="office-art"><canvas ref={ref} onClick={event=>{const box=event.currentTarget.getBoundingClientRect();const x=(event.clientX-box.left)*720/box.width;const y=(event.clientY-box.top)*650/box.height;const hit=hits.current.find(h=>x>=h.x-10&&x<=h.x+35&&y>=h.y-20&&y<=h.y+55);if(hit){onSelect(hit.id);if(team.find(e=>e.id===hit.id)?.floor===2)setFloorOpen(true)}else if(y>=259&&y<436)setFloorOpen(true)}} width={720} height={650} aria-label="3층 픽셀 사무실. 아래 직원 버튼을 눌러 상세 정보를 확인하세요."/><div className="floor-labels">{[3,2,1].map(f=>f===2?<button type="button" className="floor-zoom-trigger" key={f} onClick={()=>setFloorOpen(true)} aria-label="2층 개발팀 확대하기"><b>2F</b> 개발팀 <span>↗</span></button>:<span key={f}><b>{f}F</b> {['기획 · 검토팀','개발팀','연구 · 자동화팀'][f-1]}</span>)}</div><div className="staff-selector">{team.map(e=><button key={e.id} onClick={()=>onSelect(e.id)} className={selected===e.id?'selected':''}><i style={{background:e.color}}/>{e.name}<small>{e.status}</small></button>)}</div>{floorOpen&&<FloorDetail employee={team.find(e=>e.id==='dev')!} running={running} onClose={()=>setFloorOpen(false)}/>}</div>
 }
